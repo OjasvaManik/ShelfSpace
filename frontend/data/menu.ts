@@ -1,0 +1,16 @@
+export const menu = [
+    { title: "Home", path: "/" },
+    { title: "Manga", path: "/manga" },
+    { title: "Anime", path: "/anime" },
+    { title: "Movies", path: "/movies" },
+    { title: "TV Shows", path: "/tv" },
+    { title: "YouTube", path: "/youtube" },
+    { title: "Songs", path: "/songs" },
+    { title: "Ideas", path: "/ideas" },
+    { title: "Files", path: "/files" },
+    { title: "NSFW", path: "/nsfw" },
+    { title: "Guides", path: "/guides" },
+    { title: "Favorites", path: "/favorites" },
+    { title: "Trash", path: "/trash" },
+    { title: "History", path: "/history" },
+]
