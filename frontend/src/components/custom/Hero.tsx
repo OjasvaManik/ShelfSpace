@@ -13,7 +13,7 @@ const Hero = () => {
             <div className="absolute top-1/7 lg:top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-2xl font-bold z-20">
                 <SearchBar>
                     <Menu>
-                        <Button className={'rounded-full bg-amber-500 w-5 h-8 hover:bg-white hover:text-amber-500'}>
+                        <Button className={'rounded-full bg-amber-500 w-5 h-8 hover:bg-white active:bg-white active:text-amber-500 hover:text-amber-500'}>
                             M
                         </Button>
                     </Menu>

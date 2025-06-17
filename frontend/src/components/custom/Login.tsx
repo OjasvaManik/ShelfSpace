@@ -15,27 +15,51 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import {useRouter} from "next/navigation";
+import axios from "axios";
+import {toast} from "sonner";
 
 // Zod Schema for login
 const loginSchema = z.object({
-    email: z.string().email('Invalid email address'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
+    userName: z.string().min(2, 'Username must be at least 2 characters'),
+    userPassword: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
 type LoginFormValues = z.infer<typeof loginSchema>
 
 const Login = () => {
+    const router = useRouter()
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
-            email: '',
-            password: '',
+            userName: '',
+            userPassword: '',
         },
     })
 
-    const onSubmit = (data: LoginFormValues) => {
-        console.log('Logging in:', data)
+    const onSubmit = async (data: LoginFormValues) => {
+        try {
+            const response = await axios.post('http://100.81.212.125:8080/api/v1/auth/login', data)
+            const userData = response.data.data
+
+            // Store user data and token in localStorage
+            localStorage.setItem('user', JSON.stringify(userData))
+            localStorage.setItem('token', userData.token)
+
+            console.log(userData)
+            toast.success('Logged in successfully!')
+
+            router.push('/')
+        } catch (error: any) {
+            if (axios.isAxiosError(error) && error.response) {
+                toast.error(`${error.response.data.message}`)
+            } else {
+                toast.error('Something went wrong. Try again.')
+            }
+        }
     }
+
+
 
     return (
         <Form {...form}>
@@ -43,14 +67,14 @@ const Login = () => {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 border-y-8 border-amber-500 rounded-2xl p-10 lg:min-w-lg min-w-sm">
                     <FormField
                         control={form.control}
-                        name="email"
+                        name="userName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel>Username</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="you@example.com" {...field} className="outline-0 border-x-4 border-amber-500 border-y-0 focus-visible:border-white focus-visible:ring-0" />
+                                    <Input placeholder="your_username" {...field} className="outline-0 border-x-4 border-amber-500 border-y-0 focus-visible:border-white focus-visible:ring-0" />
                                 </FormControl>
-                                <FormDescription>Enter your registered email.</FormDescription>
+                                <FormDescription>Enter your registered username.</FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -58,7 +82,7 @@ const Login = () => {
 
                     <FormField
                         control={form.control}
-                        name="password"
+                        name="userPassword"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Password</FormLabel>
@@ -71,9 +95,14 @@ const Login = () => {
                         )}
                     />
 
-                    <Button type="submit" className="w-full bg-amber-500 hover:bg-white hover:text-amber-500">
-                        Login
+                    <Button
+                        type="submit"
+                        className="w-full bg-amber-500 hover:bg-white hover:text-amber-500"
+                        disabled={form.formState.isSubmitting}
+                    >
+                        {form.formState.isSubmitting ? 'Logging In...' : 'Login'}
                     </Button>
+
                 </form>
             </div>
         </Form>

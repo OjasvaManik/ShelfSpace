@@ -28,7 +28,7 @@ export default function BaseLayoutClient({
                     <div className={''}>
                         <SearchBar>
                             <Menu>
-                                <Button className={'rounded-full bg-amber-500 w-5 h-8 hover:bg-white hover:text-amber-500'}>
+                                <Button className={'rounded-full bg-amber-500 w-5 h-8 hover:bg-white active:bg-white hover:text-amber-500'}>
                                     M
                                 </Button>
                             </Menu>
