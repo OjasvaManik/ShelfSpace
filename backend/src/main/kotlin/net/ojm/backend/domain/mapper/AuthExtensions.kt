@@ -4,6 +4,7 @@ import net.ojm.backend.constants.enums.UserRolesEnum
 import net.ojm.backend.domain.dto.request.auth.RegisterRequest
 import net.ojm.backend.domain.dto.response.auth.LoginResponse
 import net.ojm.backend.domain.dto.response.auth.RegisterResponse
+import net.ojm.backend.domain.dto.response.users.UserResponse
 import net.ojm.backend.domain.entity.users.UserEntity
 
 fun RegisterRequest.toUserEntity(): UserEntity {
@@ -41,6 +42,18 @@ fun UserEntity.toLoginResponse(jwtToken: String, role: String): LoginResponse {
         isBanned = isBanned,
         role = role,
         token = jwtToken,
+        profileImage = profileImage ?: "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-gender-neutral-silhouette-profile-picture-suitable-social-media-profiles-icons-screensavers-as-templatex9xa_719432-875.jpg?semt=ais_hybrid&w=740"
+    )
+}
+
+fun UserEntity.toUserResponse(role: String): UserResponse {
+    return UserResponse(
+        id = id,
+        userName = userName,
+        email = email,
+        isWhitelisted = isWhitelisted,
+        isBanned = isBanned,
+        role = role,
         profileImage = profileImage ?: "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-gender-neutral-silhouette-profile-picture-suitable-social-media-profiles-icons-screensavers-as-templatex9xa_719432-875.jpg?semt=ais_hybrid&w=740"
     )
 }

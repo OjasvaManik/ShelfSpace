@@ -4,11 +4,13 @@ import net.ojm.backend.domain.dto.request.auth.LoginRequest
 import net.ojm.backend.domain.dto.request.auth.RegisterRequest
 import net.ojm.backend.domain.dto.response.auth.LoginResponse
 import net.ojm.backend.domain.dto.response.auth.RegisterResponse
+import net.ojm.backend.domain.dto.response.users.UserResponse
 import net.ojm.backend.domain.entity.users.CustomUserDetails
 import net.ojm.backend.domain.exception.BadRequestException
 import net.ojm.backend.domain.mapper.toLoginResponse
 import net.ojm.backend.domain.mapper.toRegisterResponse
 import net.ojm.backend.domain.mapper.toUserEntity
+import net.ojm.backend.domain.mapper.toUserResponse
 import net.ojm.backend.domain.repo.users.UserRepo
 import net.ojm.backend.domain.service.interfaces.auth.AuthService
 import net.ojm.backend.jwt.JwtUtils
@@ -75,5 +77,17 @@ class AuthServiceImpl (
 
         return user.toLoginResponse(jwtToken, role)
     }
+
+    override fun getCurrentUser(): UserResponse {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userDetails = authentication.principal as? CustomUserDetails
+            ?: throw BadRequestException("Invalid token")
+
+        val user = userRepo.findByUserName(userDetails.username)
+            ?: throw BadRequestException("User not found")
+        val role = userDetails.authorities.first().authority
+        return user.toUserResponse(role)
+    }
+
 
 }

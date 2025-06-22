@@ -116,6 +116,19 @@
   }
   body {
     @apply bg-black/90 text-white font-[Righteous];
+    ::selection {
+      color: white;
+      background: #FFC107;
+    }
+  }
+  h1 {
+    @apply text-2xl font-bold;
+  }
+  h2 {
+    @apply text-xl font-bold;
+  }
+  h3 {
+    @apply text-lg font-bold;
   }
 }
 
@@ -125,6 +138,18 @@
   }
   .tilted-card-overlay-text {
     @apply text-xs text-white font-semibold m-5 border-2 border-amber-700 p-2 rounded-3xl bg-slate-800;
+  }
+  .ProseMirror {
+    white-space: normal;
+    word-wrap: break-word;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  .highlight {
+    ::selection {
+      color: white;
+      background: #FFC107;
+    }
   }
 }
 

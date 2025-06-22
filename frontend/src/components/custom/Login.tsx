@@ -59,8 +59,6 @@ const Login = () => {
         }
     }
 
-
-
     return (
         <Form {...form}>
             <div className="flex justify-center items-center w-screen p-4">

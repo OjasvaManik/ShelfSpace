@@ -33,7 +33,7 @@ export function BreadCrumb() {
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                        <Link className={'md:text-xl text-sm text-amber-500 active:text-white'} href="/">Home</Link>
+                        <Link className={'md:text-lg text-sm text-amber-500 active:text-white'} href="/">Home</Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
 
@@ -44,9 +44,9 @@ export function BreadCrumb() {
                         </BreadcrumbSeparator>
                         <BreadcrumbItem>
                             {crumb.isLast ? (
-                                <BreadcrumbPage className={'lg:text-xl text-sm text-amber-500 active:text-white'}>{crumb.label}</BreadcrumbPage>
+                                <BreadcrumbPage className={'lg:text-lg text-sm text-amber-500 active:text-white'}>{crumb.label}</BreadcrumbPage>
                             ) : (
-                                <BreadcrumbLink className={'lg:text-xl text-sm text-amber-500'} href={crumb.href}>
+                                <BreadcrumbLink className={'lg:text-lg text-sm text-amber-500'} href={crumb.href}>
                                     {crumb.label}
                                 </BreadcrumbLink>
                             )}

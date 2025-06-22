@@ -36,6 +36,7 @@ class SecurityConfig (
                     .requestMatchers("/api/v1/user/**").hasAnyRole("ADMIN", "PLEB")
                     .requestMatchers(
                         "/api/v1/auth/**",
+                        "/users/**"
                     )
                     .permitAll()
                     .anyRequest()

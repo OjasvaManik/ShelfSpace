@@ -3,9 +3,7 @@ package net.ojm.backend.controller.users
 import net.ojm.backend.domain.dto.response.success.SuccessResponse
 import net.ojm.backend.domain.service.interfaces.users.UserService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
@@ -15,7 +13,10 @@ class UserController (
 ) {
 
     @PostMapping("/upload-profile-image")
-    fun uploadProfileImage(userId: Long, file: MultipartFile): ResponseEntity<SuccessResponse<String>> {
+    fun uploadProfileImage(
+        @RequestParam("userId") userId: Long,
+        @RequestParam("file") file: MultipartFile
+    ): ResponseEntity<SuccessResponse<String>> {
         val imagePath = userService.uploadProfileImage(userId, file)
 
         val response = SuccessResponse(
@@ -25,5 +26,4 @@ class UserController (
         )
         return ResponseEntity.ok(response)
     }
-
 }

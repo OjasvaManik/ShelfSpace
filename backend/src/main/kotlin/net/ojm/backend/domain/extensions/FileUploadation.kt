@@ -9,7 +9,7 @@ import java.util.*
 
 object FileUploadUtil {
 
-    private val imageExtensions = setOf("jpg", "jpeg", "png", "svg", "webp")
+    private val imageExtensions = setOf("jpg", "jpeg", "png", "svg", "webp", "gif")
 
     fun saveImage(
         baseDirectory: String,  // e.g., "Z:/shelf_space/users/profile_image"

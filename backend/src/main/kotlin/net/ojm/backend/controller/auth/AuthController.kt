@@ -5,9 +5,11 @@ import net.ojm.backend.domain.dto.request.auth.RegisterRequest
 import net.ojm.backend.domain.dto.response.auth.LoginResponse
 import net.ojm.backend.domain.dto.response.auth.RegisterResponse
 import net.ojm.backend.domain.dto.response.success.SuccessResponse
+import net.ojm.backend.domain.dto.response.users.UserResponse
 import net.ojm.backend.domain.service.interfaces.auth.AuthService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -45,5 +47,18 @@ class AuthController (
 
         return ResponseEntity(response, HttpStatus.OK)
     }
+
+    @GetMapping("/me")
+    fun getCurrentUser(): ResponseEntity<SuccessResponse<UserResponse>> {
+        val data = authService.getCurrentUser()
+
+        val response = SuccessResponse(
+            status = HttpStatus.OK.value(),
+            message = "User fetched successfully",
+            data = data
+        )
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
 
 }
