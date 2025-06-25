@@ -84,7 +84,7 @@ const GuideContent = () => {
                 />
             </div>
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10 flex">
                 {paginatedGuides.map((guide) => (
                     <Link key={guide.id} href={`/guides/${guide.id}`} className="cursor-pointer">
                         <Card className="bg-black border-amber-500 border-4 border-y-0 shadow-black shadow-xl lg:shadow-lg transform transition-transform duration-300 ease-in-out hover:scale-105 active:scale-105">

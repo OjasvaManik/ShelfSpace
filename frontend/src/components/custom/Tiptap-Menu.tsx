@@ -6,7 +6,7 @@ import {
     Bold, CodeIcon,
     Heading1,
     Heading2, Heading3, Highlighter, ImageIcon,
-    Italic, List,
+    Italic, Link2Icon, List,
     ListOrdered,
     Strikethrough, VideoIcon
 } from "lucide-react";
@@ -85,6 +85,21 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
                 }
             },
             pressed: editor.isActive("image"),
+        },
+        {
+            icon: <Link2Icon className="size-4" />,
+            onClick: () => {
+                const previousUrl = editor.getAttributes("link").href || "";
+                const url = window.prompt("Enter URL", previousUrl);
+                if (url === null) return;
+
+                if (url === "") {
+                    editor.chain().focus().unsetLink().run();
+                } else {
+                    editor.chain().focus().extendMarkRange("link").setLink({ href: url, target: "_blank" }).run();
+                }
+            },
+            pressed: editor.isActive("link"),
         },
         {
             icon: <CodeIcon className="size-4" />,

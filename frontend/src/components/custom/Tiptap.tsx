@@ -9,6 +9,8 @@ import Image from '@tiptap/extension-image'
 import {CodeBlockLowlight} from "@tiptap/extension-code-block-lowlight";
 import { lowlight } from 'lowlight/lib/core'
 import {Youtube} from "@tiptap/extension-youtube";
+import Link from "@tiptap/extension-link";
+import {Subscript} from "@tiptap/extension-subscript";
 
 const Tiptap = ({
                     content = '',
@@ -39,7 +41,15 @@ const Tiptap = ({
             }),
             Youtube.configure({
                 ccLanguage: 'en',
-            })
+            }),
+            Link.configure({
+                openOnClick: true,
+                autolink: true,
+                HTMLAttributes: {
+                    class: 'text-amber-500 hover:text-white underline hover:cursor-pointer',
+                },
+            }),
+            Subscript
         ],
         editorProps: {
             attributes: {

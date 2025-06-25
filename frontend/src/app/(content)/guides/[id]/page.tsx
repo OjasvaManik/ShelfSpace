@@ -1,4 +1,4 @@
-import GuidePage from "@/components/custom/GuidePage";
+import GuideEdit from "@/components/custom/GuideEdit";
 
-const Page = () => <GuidePage />
+const Page = () => <GuideEdit />
 export default Page

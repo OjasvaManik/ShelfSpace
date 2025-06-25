@@ -21,7 +21,7 @@ const updateGuideSchema = z.object({
 
 type UpdateGuideType = z.infer<typeof updateGuideSchema>
 
-const GuidePage = () => {
+const GuideEdit = () => {
     const params = useParams()
     const id = params?.id as string
     const router = useRouter()
@@ -170,4 +170,4 @@ const GuidePage = () => {
     )
 }
 
-export default GuidePage
+export default GuideEdit
