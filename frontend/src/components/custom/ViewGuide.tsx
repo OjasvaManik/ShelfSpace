@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {useParams, useRouter} from "next/navigation";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
 import {toast} from "sonner";
 import axios from "axios";
 

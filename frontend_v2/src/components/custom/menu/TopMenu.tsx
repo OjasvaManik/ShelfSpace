@@ -69,8 +69,8 @@ const TopMenu = ({children} : {children : ReactNode}) => {
     return (
         <div>
             <Drawer>
-                <DrawerTrigger>{children}</DrawerTrigger>
-                <DrawerContent className={'bg-black/90 text-white'}>
+                <DrawerTrigger asChild>{children}</DrawerTrigger>
+                <DrawerContent className={'bg-gradient-to-tr from-purple-950 to-amber-700 text-white'}>
                     <DrawerHeader>
                         <DrawerTitle className={'text-white'}>Menu</DrawerTitle>
                         <DrawerDescription>Travel through the site</DrawerDescription>
@@ -79,7 +79,7 @@ const TopMenu = ({children} : {children : ReactNode}) => {
                         {token ? (
                             <div className="flex items-center justify-center gap-4">
                                 <Link href="/profile">
-                                    <div className="w-[150px] h-[60px] bg-gray-700 rounded-lg p-2 pr-4 flex gap-4 items-center">
+                                    <div className="w-[150px] h-[60px] bg-white text-black rounded-lg p-2 pr-4 flex gap-4 items-center">
                                         <Avatar className="w-12 h-12">
                                             {user?.profileImage ? (
                                                 <AvatarImage
@@ -101,10 +101,10 @@ const TopMenu = ({children} : {children : ReactNode}) => {
                                             )}
                                             <AvatarFallback>{user?.userName?.[0]?.toUpperCase() ?? 'U'}</AvatarFallback>
                                         </Avatar>
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col justify-center items-center">
                                             <h4 className="text-sm font-medium">{user?.userName}</h4>
                                             {user?.role === 'ROLE_ADMIN' ? (
-                                                <Badge variant="secondary">ADMIN</Badge>
+                                                <Badge variant="default">ADMIN</Badge>
                                             ) : user?.role === 'ROLE_PLEB' ? (
                                                 <Badge variant="outline" className="text-white">PLEB</Badge>
                                             ) : null}
@@ -114,7 +114,7 @@ const TopMenu = ({children} : {children : ReactNode}) => {
 
                                 <Link href="/">
                                     <Button
-                                        className="bg-gray-700 text-white w-[150px] h-[60px] rounded-lg flex items-center justify-center"
+                                        className="bg-white text-black w-[150px] h-[60px] rounded-lg flex items-center justify-center"
                                     >
                                         <Home />
                                         Home
@@ -133,18 +133,18 @@ const TopMenu = ({children} : {children : ReactNode}) => {
                     <DrawerFooter>
                         <DrawerClose>
                             {token ? (
-                                <Button onClick={handleLogout} className="rounded-full w-full h-10 bg-gray-700">
+                                <Button onClick={handleLogout} className="rounded-full w-full h-10 bg-white text-black">
                                     <LogOut /> Logout
                                 </Button>
                             ) : (
                                 <div className="flex flex-col items-center justify-center w-full gap-4">
                                     <Link href="/login" className="w-full">
-                                        <Button className="rounded-full w-full h-10 bg-gray-700">
+                                        <Button className="rounded-full w-full h-10 bg-white text-black">
                                             <LogIn /> Login
                                         </Button>
                                     </Link>
                                     <Link href="/register" className="w-full">
-                                        <Button className="rounded-full w-full h-10 bg-gray-700">
+                                        <Button className="rounded-full w-full h-10 bg-white text-black">
                                             <UserPlus /> Register
                                         </Button>
                                     </Link>

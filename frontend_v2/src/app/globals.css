@@ -115,7 +115,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-[Righteous] antialiased;
+    @apply bg-gradient-to-tr from-purple-950 to-amber-700 text-foreground font-[Righteous] antialiased;
   }
   /* Hide scrollbar globally for .scrollbar-hide */
   .scrollbar-hide::-webkit-scrollbar {

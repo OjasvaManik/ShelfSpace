@@ -23,8 +23,8 @@ class JwtUtils {
     @Value("\${spring.app.jwtSecret}")
     private lateinit var jwtSecret: String
 
-    @Value("\${spring.app.jwtExpirationMs}")
-    private var jwtExpirationMs: Int = 0
+//    @Value("\${spring.app.jwtExpirationMs}")
+//    private var jwtExpirationMs: Int = 0
 
     fun getJwtFromHeader(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader("Authorization")
@@ -34,14 +34,24 @@ class JwtUtils {
         } else null
     }
 
+//    fun generateTokenFromUsername(userDetails: UserDetails): String {
+//        val now = Date()
+//        val expiryDate = Date(now.time + jwtExpirationMs)
+//
+//        return Jwts.builder()
+//            .subject(userDetails.username)
+//            .issuedAt(now)
+//            .expiration(expiryDate)
+//            .signWith(key())
+//            .compact()
+//    }
+
     fun generateTokenFromUsername(userDetails: UserDetails): String {
         val now = Date()
-        val expiryDate = Date(now.time + jwtExpirationMs)
 
         return Jwts.builder()
             .subject(userDetails.username)
             .issuedAt(now)
-            .expiration(expiryDate)
             .signWith(key())
             .compact()
     }

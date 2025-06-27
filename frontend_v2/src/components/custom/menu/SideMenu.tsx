@@ -63,23 +63,25 @@ const SideMenu = () => {
         <div className="flex flex-col h-full w-full">
             {/* Top Section */}
             <div>
-                <p className="font-extrabold text-white text-center px-5 pt-3 text-3xl shadow-md w-full">
-                    Shelf Space
-                </p>
+                <Link href={'/'}>
+                    <p className="font-extrabold text-white text-center px-5 py-3 text-3xl shadow-md w-full">
+                        Shelf Space
+                    </p>
+                </Link>
                 <div className="flex flex-col items-center justify-center mt-4">
                     <div className="flex justify-center items-center px-5 gap-2">
                         <Input
                             placeholder="search here"
-                            className="outline-0 border-none bg-gray-700 rounded-full text-white text-xs h-10"
+                            className="outline-0 border-none bg-white rounded-full text-black text-xs h-10"
                         />
-                        <Button className="rounded-full w-10 h-10 bg-gray-700">
+                        <Button className="rounded-full w-10 h-10 bg-white text-black hover:bg-black hover:text-white">
                             <Search />
                         </Button>
                     </div>
                 </div>
                 <div className="mt-4 px-5">
                     <Link href="/">
-                        <Button className="rounded-full w-full h-10 bg-gray-700">
+                        <Button className="rounded-full w-full h-10 bg-white text-black hover:bg-black hover:text-white">
                             <Home /> Home
                         </Button>
                     </Link>
@@ -96,7 +98,7 @@ const SideMenu = () => {
                 {token ? (
                     <div className="flex flex-col items-center justify-center w-full gap-4">
                         <Link href="/profile" className="w-full text-white">
-                            <div className="flex gap-4 items-center justify-center bg-gray-700 rounded-full p-2">
+                            <div className="flex gap-4 items-center justify-center">
                                 <Avatar className="w-13 h-13">
                                     {user?.profileImage ? (
                                         <div className="w-32 aspect-square relative">
@@ -120,31 +122,31 @@ const SideMenu = () => {
                                     )}
                                     <AvatarFallback>{user?.userName?.[0]?.toUpperCase() ?? 'U'}</AvatarFallback>
                                 </Avatar>
-                                <div className={'flex flex-col items-center justify-center bg-black rounded-lg p-2 '}>
+                                <div className={'flex flex-col items-center justify-center bg-white text-black rounded-lg p-2 '}>
                                     <h4 className="text-sm leading-none font-medium text-center mb-2">
                                         {user?.userName}
                                     </h4>
                                     {user?.role === 'ROLE_ADMIN' ? (
-                                        <Badge variant="secondary">ADMIN</Badge>
+                                        <Badge variant="default">ADMIN</Badge>
                                     ) : user?.role === 'ROLE_PLEB' ? (
                                         <Badge variant="outline" className="text-white">PLEB</Badge>
                                     ) : null}
                                 </div>
                             </div>
                         </Link>
-                        <Button onClick={handleLogout} className="rounded-full w-full h-10 bg-gray-700">
+                        <Button onClick={handleLogout} className="rounded-full w-full h-10 bg-white text-black hover:bg-black hover:text-white">
                             <LogOut /> Logout
                         </Button>
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center w-full gap-4">
                         <Link href="/login" className="w-full">
-                            <Button className="rounded-full w-full h-10 bg-gray-700">
+                            <Button className="rounded-full w-full h-10 bg-white text-black hover:bg-black hover:text-white">
                                 <LogIn /> Login
                             </Button>
                         </Link>
                         <Link href="/register" className="w-full">
-                            <Button className="rounded-full w-full h-10 bg-gray-700">
+                            <Button className="rounded-full w-full h-10 bg-white text-black hover:bg-black hover:text-white">
                                 <UserPlus /> Register
                             </Button>
                         </Link>

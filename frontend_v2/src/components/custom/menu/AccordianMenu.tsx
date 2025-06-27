@@ -23,9 +23,9 @@ export function AccordionMenu() {
                             <Link
                                 key={path}
                                 href={path}
-                                className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 transition"
+                                className="flex items-center gap-3 p-2 rounded-md hover:bg-white hover:text-black transition"
                             >
-                                <Icon className="w-5 h-5 text-gray-500" />
+                                <Icon className="w-5 h-5 text-amber-500" />
                                 <span className="text-base">{title}</span>
                             </Link>
                         ))}

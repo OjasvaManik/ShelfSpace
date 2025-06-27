@@ -73,13 +73,13 @@ const Register = () => {
     return (
         <Form {...form} >
             <div className={'flex justify-center items-center p-4'}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-black rounded-2xl p-10 lg:min-w-lg">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-white rounded-2xl p-10 lg:min-w-lg">
                     <FormField
                         control={form.control}
                         name="userName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className={'text-white'}>Username</FormLabel>
+                                <FormLabel>Username</FormLabel>
                                 <FormControl>
                                     <Input placeholder="your_username" {...field} className={'outline-0 border-0 rounded-full shadow-black shadow-2xl text-sm text-white bg-gray-700 h-10'} />
                                 </FormControl>
@@ -94,7 +94,7 @@ const Register = () => {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className={'text-white'}>Email</FormLabel>
+                                <FormLabel>Email</FormLabel>
                                 <FormControl>
                                     <Input placeholder="you@example.com" {...field} className={'outline-0 border-0 rounded-full shadow-black shadow-2xl text-sm text-white bg-gray-700 h-10'} />
                                 </FormControl>
@@ -109,7 +109,7 @@ const Register = () => {
                         name="userPassword"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className={'text-white'}>Password</FormLabel>
+                                <FormLabel>Password</FormLabel>
                                 <FormControl>
                                     <Input type="password" {...field} className={'outline-0 border-0 rounded-full shadow-black shadow-2xl text-sm text-white bg-gray-700 h-10'} />
                                 </FormControl>
@@ -124,7 +124,7 @@ const Register = () => {
                         name="confirmPassword"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className={'text-white'}>Confirm Password</FormLabel>
+                                <FormLabel>Confirm Password</FormLabel>
                                 <FormControl>
                                     <Input type="password" {...field} className={'outline-0 border-0 rounded-full shadow-black shadow-2xl text-sm text-white bg-gray-700 h-10'} />
                                 </FormControl>
