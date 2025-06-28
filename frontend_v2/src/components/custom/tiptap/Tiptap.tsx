@@ -12,6 +12,8 @@ import {Youtube} from "@tiptap/extension-youtube";
 import Link from "@tiptap/extension-link";
 import {Subscript} from "@tiptap/extension-subscript";
 import {CharacterCount} from "@tiptap/extension-character-count";
+import { Mathematics } from '@tiptap/extension-mathematics';
+import 'katex/dist/katex.min.css'
 
 const Tiptap = ({
                     content = '',
@@ -56,13 +58,18 @@ const Tiptap = ({
             Subscript,
             CharacterCount.configure({
                 textCounter: (text) => [...new Intl.Segmenter().segment(text)].length,
+            }),
+            Mathematics.configure({
+                shouldRender: (state, pos, node) => {
+                    const $pos = state.doc.resolve(pos)
+                    return node.type.name === 'text' && $pos.parent.type.name !== 'codeBlock'
+                },
             })
-
         ],
         editorProps: {
             attributes: {
                 class:
-                    'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl mt-2 px-3 focus:outline-none focus-visible:ring-0 rounded-md font-[JetBrains_Mono] w-full min-h-[300px] ProseMirror text-wrap',
+                    'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl mt-2 px-3 focus:outline-none focus-visible:ring-0 rounded-md w-full min-h-[300px] ProseMirror text-wrap',
             },
         },
         content, // 🧠 use the passed-in description here
@@ -72,8 +79,10 @@ const Tiptap = ({
     })
 
     return (
-        <div>
-            <TiptapMenu editor={editor} />
+        <div className="relative">
+            <div className="sticky top-0 z-10 bg-white border-b border-gray-300 rounded-t-md">
+                <TiptapMenu editor={editor} />
+            </div>
             <EditorContent className="select-text" editor={editor} />
         </div>
     )

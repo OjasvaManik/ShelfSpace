@@ -1,10 +1,12 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import axios from 'axios'
 import { format } from 'date-fns'
+import renderMathInElement from 'katex/contrib/auto-render'
+import 'katex/dist/katex.min.css'
 
 type GuideType = {
     id: string
@@ -22,6 +24,8 @@ const ViewGuide = () => {
 
     const [token, setToken] = useState<string | null>(null)
     const [guide, setGuide] = useState<GuideType | null>(null)
+
+    const descriptionRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (!id || id === 'undefined') {
@@ -58,10 +62,26 @@ const ViewGuide = () => {
         fetchGuide()
     }, [id, router])
 
+    useEffect(() => {
+        if (!guide || !descriptionRef.current) return;
+
+        const raf = requestAnimationFrame(() => {
+            renderMathInElement(descriptionRef.current!, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false }
+                ],
+                throwOnError: false,
+            })
+        })
+
+        return () => cancelAnimationFrame(raf)
+    }, [guide])
+
     if (!guide) return <p>Loading...</p>
 
     return (
-        <div className="flex flex-col items-center justify-start px-6 py-8 gap-3 min-h-screen">
+        <div className="flex flex-col items-center justify-start px-6 py-8 gap-3 min-h-screen font-[Palanquin]">
             <div className="bg-white rounded-2xl lg:p-6 shadow-xl p-3 w-full max-w-4xl">
                 <h1 className="lg:text-5xl text-3xl font-bold text-center text-amber-500">{guide.title}</h1>
             </div>
@@ -78,17 +98,18 @@ const ViewGuide = () => {
             </div>
 
             <div className="bg-white rounded-xl p-6 w-full max-w-4xl shadow-md">
-                <h2 className="text-2xl font-semibold text-center text-gray-500">{guide.summary}</h2>
+                <h2 className="text-2xl font-semibold text-center text-gray-500 break-words whitespace-pre-wrap">
+                    {guide.summary}
+                </h2>
             </div>
 
             <div
+                ref={descriptionRef}
                 dangerouslySetInnerHTML={{ __html: guide.description }}
-                className="prose lg:max-w-4xl lg:min-w-4xl min-w-[350px] max-w-[350px] bg-white p-6 rounded-xl shadow-md overflow-y-auto min-h-[500px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-hide text-wrap overflow-x-none"
+                className="prose lg:max-w-4xl lg:min-w-4xl min-w-[350px] max-w-[350px] bg-white p-6 rounded-xl shadow-md overflow-y-auto min-h-[500px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-hide text-wrap overflow-x-none space-y-4"
             />
         </div>
     )
-
-
 }
 
 export default ViewGuide

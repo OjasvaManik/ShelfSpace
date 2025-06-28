@@ -18,12 +18,12 @@ data class GuideEntity(
     val id: UUID = UUID.randomUUID(),
 
     @Column(name = "title", nullable = false)
-    val title: String,
+    var title: String, // Changed from val to var
 
     @Column(name = "summary", nullable = false)
-    val summary: String,
+    var summary: String, // Changed from val to var
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
-    val description: String,
+    var description: String, // Changed from val to var
 
 ): BaseTimeEntity()

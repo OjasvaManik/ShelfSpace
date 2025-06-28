@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
@@ -34,8 +35,11 @@ class GuideController (
     }
 
     @GetMapping
-    fun getAllGuides(): ResponseEntity<SuccessResponse<List<AllGuidesResponse>>> {
-        val data = guideService.getAllGuides()
+    fun getAllGuides(
+        @RequestParam(required = false) sortBy: String?,
+        @RequestParam(required = false) order: String?
+    ): ResponseEntity<SuccessResponse<List<AllGuidesResponse>>> {
+        val data = guideService.getAllGuides(sortBy, order)
         val response = SuccessResponse(
             status = 200,
             message = "Guides fetched successfully",
@@ -43,6 +47,7 @@ class GuideController (
         )
         return ResponseEntity.ok().body(response)
     }
+
 
     @GetMapping("/{id}")
     fun getGuideById(@PathVariable id: UUID): ResponseEntity<SuccessResponse<GuideResponse>> {

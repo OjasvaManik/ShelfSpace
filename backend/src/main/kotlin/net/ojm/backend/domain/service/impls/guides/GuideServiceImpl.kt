@@ -9,8 +9,10 @@ import net.ojm.backend.domain.mapper.toGuideEntity
 import net.ojm.backend.domain.mapper.toGuideResponse
 import net.ojm.backend.domain.repo.guides.GuideRepo
 import net.ojm.backend.domain.service.interfaces.guides.GuideService
+import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Service
@@ -24,8 +26,18 @@ class GuideServiceImpl (
         return savedEntity.toGuideResponse()
     }
 
-    override fun getAllGuides(): List<AllGuidesResponse> {
-        val guides = repo.findAll()
+    override fun getAllGuides(sortBy: String?, order: String?): List<AllGuidesResponse> {
+        val sortField = when (sortBy) {  // Remove .lowercase()
+            "title" -> "title"
+            "createdAt" -> "createdAt"
+            "updatedAt" -> "updatedAt"
+            else -> "createdAt"
+        }
+
+        val direction = if (order?.equals("desc", true) == true) Sort.Direction.DESC else Sort.Direction.ASC
+        val sort = Sort.by(direction, sortField)
+
+        val guides = repo.findAll(sort)
 
         if (guides.isEmpty()) {
             throw BadRequestException("No guides found")
@@ -49,13 +61,13 @@ class GuideServiceImpl (
             BadRequestException("Guide with ID $id not found")
         }
 
-        val updatedGuide = existingGuide.copy(
-            title = request.title,
-            summary = request.summary,
-            description = request.description
-        )
+        // Update the existing entity directly instead of creating a copy
+        existingGuide.title = request.title
+        existingGuide.summary = request.summary
+        existingGuide.description = request.description
+        // updatedAt will be automatically set by @LastModifiedDate
 
-        val savedGuide = repo.save(updatedGuide)
+        val savedGuide = repo.save(existingGuide)
         return savedGuide.toGuideResponse()
     }
 

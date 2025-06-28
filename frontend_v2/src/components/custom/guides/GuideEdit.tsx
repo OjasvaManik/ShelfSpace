@@ -1,10 +1,13 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import { toast } from 'sonner'
 import { z } from 'zod'
+import { useParams, useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+
 import {
     Form,
     FormControl,
@@ -14,28 +17,27 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import axios from 'axios'
-import { toast } from 'sonner'
 import Tiptap from '@/components/custom/tiptap/Tiptap'
 
-const addGuideSchema = z.object({
+const updateGuideSchema = z.object({
     title: z.string().min(3, 'Title must be at least 3 characters'),
     summary: z.string().min(5, 'Summary must be at least 5 characters').max(200, 'Summary must not exceed 200 characters'),
-    description: z.string(),
+    description: z.string().min(1, 'Description cannot be empty'),
 })
 
-type AddGuideType = z.infer<typeof addGuideSchema>
+type UpdateGuideType = z.infer<typeof updateGuideSchema>
 
-const CreateGuide = () => {
-    const [user, setUser] = useState<any>(null)
+const GuideEdit = () => {
+    const params = useParams()
+    const id = params?.id as string
+    const router = useRouter()
     const [token, setToken] = useState<string | null>(null)
     const [isUploading, setIsUploading] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false)
     const [description, setDescription] = useState('')
 
-    const router = useRouter()
-
-    const form = useForm<AddGuideType>({
-        resolver: zodResolver(addGuideSchema),
+    const form = useForm<UpdateGuideType>({
+        resolver: zodResolver(updateGuideSchema),
         defaultValues: {
             title: '',
             summary: '',
@@ -44,33 +46,63 @@ const CreateGuide = () => {
     })
 
     useEffect(() => {
+        if (!id || id === 'undefined') {
+            toast.error("Invalid guide ID")
+            router.push('/guides')
+            return
+        }
+
         const storedToken = localStorage.getItem('token')
         const storedUser = localStorage.getItem('user')
 
-        if (storedToken && storedUser) {
-            setToken(storedToken)
-            setUser(JSON.parse(storedUser))
+        if (!storedToken || !storedUser) {
+            toast.error("Please log in to edit the guide.")
+            router.push("/login")
+            return
         }
-    }, [])
 
-    const onSubmit = async (data: AddGuideType) => {
+        setToken(storedToken)
+
+        const fetchGuide = async () => {
+            try {
+                const res = await axios.get(`http://100.81.212.125:8080/api/v1/guides/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${storedToken}`,
+                    },
+                })
+
+                const guide = res.data.data
+                form.setValue('title', guide.title)
+                form.setValue('summary', guide.summary)
+                form.setValue('description', guide.description)
+                setDescription(guide.description)
+                setIsLoaded(true)
+            } catch (err) {
+                toast.error("Failed to load guide.")
+            }
+        }
+
+        fetchGuide()
+    }, [id, router, form])
+
+    const onSubmit = async (data: UpdateGuideType) => {
+        if (!token) return
+
         try {
             setIsUploading(true)
 
             const payload = {
                 ...data,
                 description,
-                createdBy: user?.id,
             }
 
-            await axios.post('http://100.81.212.125:8080/api/v1/guides/create', payload, {
+            await axios.put(`http://100.81.212.125:8080/api/v1/guides/update/${id}`, payload, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             })
 
-            toast.success('Guide created successfully!')
-            router.refresh()
+            toast.success('Guide updated successfully!')
             router.push('/guides')
         } catch (err: any) {
             toast.error(err?.response?.data?.message || 'Something went wrong')
@@ -133,13 +165,16 @@ const CreateGuide = () => {
                                     <FormItem>
                                         <FormControl>
                                             <div className="select-text">
-                                                <Tiptap
-                                                    setDescription={(value: string) => {
-                                                        setDescription(value)
-                                                        form.setValue('description', value)
-                                                        form.trigger('description')
-                                                    }}
-                                                />
+                                                {isLoaded && (
+                                                    <Tiptap
+                                                        content={description}
+                                                        setDescription={(value: string) => {
+                                                            setDescription(value)
+                                                            form.setValue('description', value)
+                                                            form.trigger('description')
+                                                        }}
+                                                    />
+                                                )}
                                             </div>
                                         </FormControl>
                                         <FormMessage />
@@ -155,16 +190,16 @@ const CreateGuide = () => {
                                 disabled={isUploading}
                                 className="bg-white text-black rounded-xl shadow-md px-6 py-2 w-full hover:bg-black hover:text-white"
                             >
-                                {isUploading ? 'Submitting...' : 'Create'}
+                                {isUploading ? 'Updating...' : 'Update Guide'}
                             </Button>
                         </div>
                     </form>
                 </Form>
             ) : (
-                <p className="text-red-500 text-center">Please log in to add a guide.</p>
+                <p className="text-red-500 text-center">Please log in to edit the guide.</p>
             )}
         </div>
     )
 }
 
-export default CreateGuide
+export default GuideEdit

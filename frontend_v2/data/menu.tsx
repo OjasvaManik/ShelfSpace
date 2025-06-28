@@ -20,18 +20,17 @@ import {
     File,
     Gamepad2,
     ScrollText,
-    Heart,
-    Trash2, BrickWall,
+    BrickWall, KeyRound,
 } from "lucide-react";
 
 export const menu = [
     {
         category: "Library",
         items: [
-            { title: "Favourite", path: "/favourite", icon: Heart },
-            { title: "Trash", path: "/trash", icon: Trash2 },
             { title: "Docs", path: "/docs", icon: FileText },
             { title: "Wallpapers", path: "/wallpapers", icon: BrickWall },
+            { title: "Books", path: "/books", icon: Book },
+            { title: "Encrypted", path: "/encrypted", icon: KeyRound },
         ],
     },
     {

@@ -10,12 +10,12 @@ interface GuideService {
 
     fun createGuide(request: GuideRequest): GuideResponse
 
-    fun getAllGuides(): List<AllGuidesResponse>
-
     fun getGuideById(id: UUID): GuideResponse
 
     fun updateGuide(id: UUID, request: GuideRequest): GuideResponse
 
     fun deleteGuide(id: UUID): String
+
+    fun getAllGuides(sortBy: String?, order: String?): List<AllGuidesResponse>
 
 }
