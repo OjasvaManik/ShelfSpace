@@ -13,7 +13,7 @@ const PageShell = ({ children }: { children: ReactNode }) => {
 
                 {/* Show breadcrumb if not home */}
                 {pathname !== '/' && (
-                    <div className="px-4 py-2">
+                    <div className="px-4 py-2 flex items-center justify-center">
                         <BreadCrumbComponent />
                     </div>
                 )}

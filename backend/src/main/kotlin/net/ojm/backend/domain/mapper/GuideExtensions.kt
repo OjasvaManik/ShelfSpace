@@ -10,7 +10,9 @@ fun GuideEntity.toGuideResponse(): GuideResponse {
         id = this.id,
         title = this.title,
         summary = this.summary,
-        description = this.description
+        description = this.description,
+        createdAt = this.createdAt,
+        updatedAt = this.updatedAt
     )
 }
 
@@ -27,6 +29,8 @@ fun GuideEntity.toAllGuidesResponse(): AllGuidesResponse {
         id = this.id,
         title = this.title,
         summary = this.summary,
-        description = this.description
+        description = this.description,
+        createdAt = this.createdAt,
+        updatedAt = this.updatedAt
     )
 }

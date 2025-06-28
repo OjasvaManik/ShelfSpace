@@ -9,7 +9,7 @@ const RootLayout = ({
 }>) => {
     return (
         <PageShell>
-            <div className={'flex flex-col w-full h-full'}>
+            <div className={'flex flex-col w-full h-full overflow-y-auto scrollbar-hide'}>
                 <GuideNav />
                 {children}
             </div>

@@ -1,5 +1,6 @@
 package net.ojm.backend.domain.dto.response.guides
 
+import java.time.LocalDateTime
 import java.util.UUID
 
 data class AllGuidesResponse(
@@ -8,5 +9,7 @@ data class AllGuidesResponse(
     val title: String,
     val summary: String,
     val description: String,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime
 
 )

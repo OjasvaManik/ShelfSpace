@@ -3,16 +3,18 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Trash } from "lucide-react"
+import { format } from 'date-fns'
 
 type Guide = {
     id: string
     title: string
-    summary: string
+    summary: string,
+    createdAt: string,
+    updatedAt: string,
 }
 
 const GuideContent = () => {
@@ -82,6 +84,16 @@ const GuideContent = () => {
                                     >
                                         <Trash />
                                     </Button>
+                                </div>
+                                <div className="grid lg:grid-cols-1 grid-cols-2 lg:gap-4 w-full gap-2">
+                                    <div className="flex flex-col gap-1">
+                                        <p className="text-sm text-pink-500">Created At</p>
+                                        <p className="text-md font-medium text-white">{format(new Date(guide.createdAt), 'dd-MM-yyyy HH:mm')}</p>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <p className="text-sm text-pink-500">Last Updated</p>
+                                        <p className="text-md font-medium text-white">{format(new Date(guide.updatedAt), 'dd-MM-yyyy HH:mm')}</p>
+                                    </div>
                                 </div>
                             </CardHeader>
                             <CardContent>

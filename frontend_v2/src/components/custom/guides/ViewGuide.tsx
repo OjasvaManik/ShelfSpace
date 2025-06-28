@@ -4,12 +4,15 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import axios from 'axios'
+import { format } from 'date-fns'
 
 type GuideType = {
     id: string
     title: string
     summary: string
-    description: string
+    description: string,
+    createdAt: string,
+    updatedAt: string,
 }
 
 const ViewGuide = () => {
@@ -58,19 +61,34 @@ const ViewGuide = () => {
     if (!guide) return <p>Loading...</p>
 
     return (
-        <div className={'flex flex-col items-center justify-center p-4 gap-4 h-full w-full'}>
-            <div className={'flex justify-center items-center p-4 bg-white w-200 rounded-lg shadow-4xl shadow-black'}>
-                <h1>{guide.title}</h1>
+        <div className="flex flex-col items-center justify-start px-6 py-8 gap-3 min-h-screen">
+            <div className="bg-white rounded-2xl lg:p-6 shadow-xl p-3 w-full max-w-4xl">
+                <h1 className="lg:text-5xl text-3xl font-bold text-center text-amber-500">{guide.title}</h1>
             </div>
-            <div className={'flex justify-center items-center p-4 bg-white w-200 rounded-lg shadow-4xl shadow-black'}>
-                <h2>{guide.summary}</h2>
+
+            <div className="grid grid-cols-2 gap-4 w-full max-w-4xl">
+                <div className="bg-white rounded-xl p-4 shadow-md flex flex-col gap-1">
+                    <p className="text-sm text-pink-500">Created At</p>
+                    <p className="text-md font-medium text-black/45">{format(new Date(guide.createdAt), 'dd-MM-yyyy HH:mm')}</p>
+                </div>
+                <div className="bg-white rounded-xl p-4 shadow-md flex flex-col gap-1">
+                    <p className="text-sm text-pink-500">Last Updated</p>
+                    <p className="text-md font-medium text-black/45">{format(new Date(guide.updatedAt), 'dd-MM-yyyy HH:mm')}</p>
+                </div>
             </div>
+
+            <div className="bg-white rounded-xl p-6 w-full max-w-4xl shadow-md">
+                <h2 className="text-2xl font-semibold text-center text-gray-500">{guide.summary}</h2>
+            </div>
+
             <div
                 dangerouslySetInnerHTML={{ __html: guide.description }}
-                className="prose max-w-none p-4 bg-white w-200 rounded-lg shadow-4xl shadow-black h-150 overflow-y-auto scrollbar-hide text-wrap"
+                className="prose lg:max-w-4xl lg:min-w-4xl min-w-[350px] max-w-[350px] bg-white p-6 rounded-xl shadow-md overflow-y-auto min-h-[500px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-hide text-wrap overflow-x-none"
             />
         </div>
     )
+
+
 }
 
 export default ViewGuide
